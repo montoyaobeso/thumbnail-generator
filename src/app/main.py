@@ -1,4 +1,6 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, status
+from fastapi.responses import JSONResponse
+
 from mangum import Mangum
 
 app = FastAPI()
@@ -7,9 +9,11 @@ app = FastAPI()
 @app.get("/")
 def get_root():
     print("Hello World!")
-    return Response(
-        status_code=200,
-        content="API Running in Lambda Funcion!",
+    return JSONResponse(
+        {
+            "message": "API Running in Lambda Funcion!",
+        },
+        status_code=status.HTTP_200_OK,
     )
 
 
