@@ -19,5 +19,4 @@ jobs:
       - run: sam build --use-container
 
       # sam deploy
-      - run: echo ${{ env.AWS_BUCKET_NAME }}
-      - run: sam deploy --s3-bucket ${{ env.AWS_BUCKET_NAME }} --region  ${{ env.AWS_REGION }}
+      - run: sam deploy --s3-bucket  ${{ env.AWS_BUCKET_NAME }}
