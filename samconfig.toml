@@ -1,7 +1,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "FastAPIThumbnailGeneratorStaack"
+stack_name = "FastAPIThumbnailGeneratorStack"
 
 [default.deploy]
 [default.deploy.parameters]
