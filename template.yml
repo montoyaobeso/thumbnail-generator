@@ -23,6 +23,7 @@ Resources:
 
   Api:
     Type: AWS::Serverless::HttpApi
+    StageName: prod
 
 Outputs:
   ApiUrl:
