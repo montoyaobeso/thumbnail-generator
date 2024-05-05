@@ -26,6 +26,6 @@ Resources:
 
 Outputs:
   ApiUrl:
-    Description: URL of your API endpoint
+    Description: API endpoint URL
     Value:
-      Fn::Sub: 'https://${Api}.execute-api.${AWS::Region}.${AWS::URLSuffix}/'
+      Fn::Sub: 'https://${Api}.api.${AWS::Region}.${AWS::URLSuffix}/'
