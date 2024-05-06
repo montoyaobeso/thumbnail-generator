@@ -1,15 +1,14 @@
 import io
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import FastAPI, File, Form, Response, UploadFile, status
 from fastapi.responses import JSONResponse, StreamingResponse
 from mangum import Mangum
 from PIL import Image
 
-
 app = FastAPI(
     title="Thumbnail Generator",
-    description="Generate a PNG Image thumbnail with FastAPI and Pillow.",
+    description="Generate image thumbnail with FastAPI and Pillow.",
     version="0.0.1",
     contact={
         "name": "Abraham Montoya",
@@ -28,9 +27,21 @@ async def root():
 
 @app.post("/create")
 async def get_thumbnail(
-    file: UploadFile = File(...),
-    width: Annotated[int, Form()] = 128,
-    height: Annotated[int, Form()] = 128,
+    file: UploadFile = File(..., description="Binary image data."),
+    width: Annotated[
+        int,
+        Form(description="The desired width for the output image. Defaults to 128."),
+    ] = 128,
+    height: Annotated[
+        int,
+        Form(description="The desired heigth for the output image. Defaults to 128."),
+    ] = 128,
+    output_format: Annotated[
+        Literal["png", "jpeg"],
+        Form(
+            description="Available formats: png and jpeg",
+        ),
+    ] = "png",
 ):
     """
     Generate thumbnail images by providing binary data and the desired output size.
@@ -39,10 +50,10 @@ async def get_thumbnail(
         File: IOBytes of the resized image, default format is PNG.
     """
     # Validate input file type
-    if file.content_type not in ["image/png", "image/jpg", "image/jpeg"]:
+    if file.content_type not in ["image/png", "image/jpeg"]:
         return Response(
             status_code=status.HTTP_400_BAD_REQUEST,
-            content=f"Supported formats: [.png, .jpeg, .jpg]; provided '{file.filename}'.",
+            content=f"Supported formats: [.png, .jpeg]; provided '{file.filename}'.",
         )
 
     # Read image data
@@ -82,11 +93,11 @@ async def get_thumbnail(
 
     # Save image to buffer
     image_buffer = io.BytesIO()
-    image.convert("RGB").save(image_buffer, "PNG")
+    image.convert("RGB").save(image_buffer, output_format.upper())
     image_buffer.seek(0)
 
     # Send image as response
-    return StreamingResponse(image_buffer, media_type="image/png")
+    return StreamingResponse(image_buffer, media_type=f"image/{output_format.lower()}")
 
 
 handler = Mangum(app)
