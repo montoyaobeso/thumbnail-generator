@@ -2,24 +2,54 @@ import io
 from typing import Annotated
 
 from fastapi import FastAPI, File, Form, Response, UploadFile, status
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from mangum import Mangum
 from PIL import Image
 
-app = FastAPI()
+
+app = FastAPI(
+    title="Thumbnail Generator",
+    description="Generate a PNG Image thumbnail with FastAPI and Pillow.",
+    version="0.0.1",
+    contact={
+        "name": "Abraham Montoya",
+        "email": "montoyaobeso@gmail.com",
+    },
+)
 
 
-@app.post("/")
-async def create_upload_file(
+@app.get("/")
+async def root():
+    return JSONResponse(
+        content={"message": "Welcome to thumbnail generator API."},
+        status_code=status.HTTP_200_OK,
+    )
+
+
+@app.post("/create")
+async def get_thumbnail(
     file: UploadFile = File(...),
     width: Annotated[int, Form()] = 128,
     height: Annotated[int, Form()] = 128,
 ):
+    """
+    Generate thumbnail images by providing binary data and the desired output size.
 
-    # Read image and resize it
+    Returns:
+        File: IOBytes of the resized image, default format is PNG.
+    """
+    # Validate input file type
+    if file.content_type not in ["image/png", "image/jpg", "image/jpeg"]:
+        return Response(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=f"Supported formats: [.png, .jpeg, .jpg]; provided '{file.filename}'.",
+        )
+
+    # Read image data
     image_data = await file.read()
     image = Image.open(io.BytesIO(image_data))
 
+    # Run some resizing checks
     if width <= 0 or height <= 0:
         return Response(
             status_code=status.HTTP_400_BAD_REQUEST,
