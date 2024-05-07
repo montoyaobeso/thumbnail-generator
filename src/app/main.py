@@ -6,6 +6,8 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from mangum import Mangum
 from PIL import Image
 
+from src.app.image_resizer import ImageResizer
+
 app = FastAPI(
     title="Thumbnail Generator",
     description="Generate image thumbnail with FastAPI and Pillow.",
@@ -30,11 +32,17 @@ async def get_thumbnail(
     file: UploadFile = File(..., description="Binary image data."),
     width: Annotated[
         int,
-        Form(description="The desired width for the output image. Defaults to 128."),
+        Form(
+            description="The desired width for the output image. Defaults to 128.",
+            gt=0,
+        ),
     ] = 128,
     height: Annotated[
         int,
-        Form(description="The desired heigth for the output image. Defaults to 128."),
+        Form(
+            description="The desired heigth for the output image. Defaults to 128.",
+            gt=0,
+        ),
     ] = 128,
     output_format: Annotated[
         Literal["png", "jpeg"],
@@ -58,43 +66,19 @@ async def get_thumbnail(
 
     # Read image data
     image_data = await file.read()
-    image = Image.open(io.BytesIO(image_data))
 
-    # Run some resizing checks
-    if width <= 0 or height <= 0:
-        return Response(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content="Width and Height values shoulde be greater than 0.",
-        )
+    image = ImageResizer(
+        image=Image.open(io.BytesIO(image_data)),
+        target_width=width,
+        target_height=height,
+        output_format=output_format,
+    )
 
-    # Get input image size
-    im_width, im_height = image.size
+    # Perfrom resizing
+    image.resize()
 
-    # Check new width and heigth
-    size_checks = []
-    if width > im_width:
-        size_checks.append(
-            f"Width input value ({width}) is higher than input image width ({im_width})."
-        )
-
-    if height > im_height:
-        size_checks.append(
-            f"Height input value ({height}) is higher than input image width ({im_height})."
-        )
-
-    if size_checks:
-        return Response(
-            content="\n".join(size_checks),
-            status_code=status.HTTP_400_BAD_REQUEST,
-        )
-
-    # Resize image
-    image = image.resize((int(width), int(height)))
-
-    # Save image to buffer
-    image_buffer = io.BytesIO()
-    image.convert("RGB").save(image_buffer, output_format.upper())
-    image_buffer.seek(0)
+    # Get output buffer
+    image_buffer = image.get_output_buffer()
 
     # Send image as response
     return StreamingResponse(image_buffer, media_type=f"image/{output_format.lower()}")
