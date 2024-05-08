@@ -36,6 +36,8 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       - uses: aws-actions/setup-sam@v1
+        with:
+          use-installer: true
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
