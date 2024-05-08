@@ -20,7 +20,7 @@ class TestImageResizer(TestCase):
         result = image.get_output_image()
 
         # Assert
-        self.assertTrue(result.size == True)
+        self.assertTrue(result.size == (128, 128))
 
     def test_get_original_image_size(self):
         # Arrange
