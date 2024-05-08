@@ -1,2 +1,2 @@
 # thumbnail-generator
-Thumbnail generator service
+Thumbnail generator API
