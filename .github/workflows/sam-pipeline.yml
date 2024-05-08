@@ -15,6 +15,7 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: "3.9"
+        cache: 'pip'
     - name: Execute unit tests and coverage report
       run: |
         python -m pip install --upgrade pip
@@ -28,7 +29,10 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip'
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
