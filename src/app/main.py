@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from mangum import Mangum
 from PIL import Image
 
-from app.image_resizer import ImageResizer
+from src.app.image_resizer import ImageResizer
 
 app = FastAPI(
     title="Thumbnail Generator",
