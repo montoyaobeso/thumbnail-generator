@@ -12,6 +12,7 @@ Resources:
     Properties:
       FunctionName: "FastAPILambda"
       MemorySize: 256
+      CodeUri: .
       Handler: src.app.main.handler
       Runtime: python3.9
       Events:
