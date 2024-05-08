@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: '3.9'
           cache: 'pip'
-      - uses: aws-actions/setup-sam@v1
+      - uses: aws-actions/setup-sam@v2
         with:
           use-installer: false
       - uses: aws-actions/configure-aws-credentials@v1
