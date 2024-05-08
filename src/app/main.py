@@ -10,7 +10,7 @@ from src.app.image_resizer import ImageResizer
 
 app = FastAPI(
     title="Thumbnail Generator",
-    description="Generate image thumbnail with FastAPI and Pillow.",
+    description="Generate image thumbnails with FastAPI.",
     version="0.0.1",
     contact={
         "name": "Abraham Montoya",
@@ -52,7 +52,7 @@ async def get_thumbnail(
     ] = "png",
 ):
     """
-    Generate thumbnail images by providing binary data and the desired output size.
+    Generate a thumbnail image by providing binary input data and the desired output size.
 
     Returns:
         File: IOBytes of the resized image, default format is PNG.
