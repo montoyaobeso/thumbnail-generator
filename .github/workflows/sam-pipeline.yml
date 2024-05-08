@@ -7,7 +7,24 @@ env:
   AWS_BUCKET_NAME: thumbnail-generator-api
 
 jobs:
-  build-deploy:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["pypy3.9"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run test suite
+        # Run unit tests and coverage
+        run: python -m coverage run -m unittest -v tests/*.py
+        # Show coverage report
+        run: python -m coverage report -m
+
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,9 +35,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      
       # sam build 
       - run: sam build --use-container
-
       # sam deploy
       - run: sam deploy --s3-bucket $AWS_BUCKET_NAME --no-confirm-changeset --no-fail-on-empty-changeset
