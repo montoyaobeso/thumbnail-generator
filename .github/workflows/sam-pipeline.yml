@@ -34,7 +34,7 @@ jobs:
           cache: 'pip'
       - uses: aws-actions/setup-sam@v2
         with:
-          use-installer: false
+          use-installer: true
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
