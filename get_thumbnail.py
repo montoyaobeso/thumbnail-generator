@@ -4,7 +4,7 @@ import io
 
 
 if __name__ == "__main__":
-    with open("horse.png", "rb") as f:
+    with open("tests/horse.png", "rb") as f:
         response = requests.post(
             "http://127.0.0.1:80/create",
             data={
