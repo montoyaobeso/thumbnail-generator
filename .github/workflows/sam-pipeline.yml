@@ -3,9 +3,6 @@ on:
     branches:
       - main
 
-env:
-  AWS_BUCKET_NAME: thumbnail-generator-api
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -46,4 +43,4 @@ jobs:
       # sam build 
       - run: sam build --use-container
       # sam deploy
-      - run: sam deploy --s3-bucket $AWS_BUCKET_NAME --no-confirm-changeset --no-fail-on-empty-changeset
+      - run: sam deploy --s3-bucket ${{ secrets.AWS_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset
