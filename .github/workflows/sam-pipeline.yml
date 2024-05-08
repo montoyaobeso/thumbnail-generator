@@ -41,8 +41,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       # sam build
-      - name: SAM Build
+      - name: Run SAM Build
         run: sam build --use-container
       # sam deploy
-      - name: SAM Deploy
+      - name: Run SAM Deploy
         run: sam deploy --s3-bucket ${{ secrets.AWS_BUCKET_NAME }} --no-confirm-changeset --no-fail-on-empty-changeset
