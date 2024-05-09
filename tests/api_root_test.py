@@ -9,6 +9,14 @@ class TestRootEntrypoint(TestCase):
     client = TestClient(app)
 
     def test_root(self):
+        # Arrange
+        expected_response = {
+            "message": "Welcome to thumbnail generator API.",
+        }
+
+        # Act
         response = self.client.get("/")
-        assert response.status_code == 200
-        assert response.json() == {"message": "Welcome to thumbnail generator API."}
+
+        # Assert
+        self.assertTrue(response.status_code, 200)
+        self.assertTrue(response.json(), expected_response)
