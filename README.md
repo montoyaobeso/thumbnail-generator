@@ -61,3 +61,5 @@ if __name__ == "__main__":
 
 ## Postman collection
 Import [this](postman-collection.json) postman collection to test the application out.
+
+<img title="a title" alt="Alt text" src="./assets/postman.png">
