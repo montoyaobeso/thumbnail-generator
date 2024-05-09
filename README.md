@@ -1,4 +1,4 @@
-# Thumbnal Generator
+# Thumbnail Generator
 Thumbnail generator API.
 
 ## Architecture
