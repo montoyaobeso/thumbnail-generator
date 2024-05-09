@@ -2,16 +2,15 @@
 Thumbnail generator API.
 
 ## Architecture
-The application arquitecture is composed as follows:
+The application architecture is composed as follows:
 <img title="a title" alt="Alt text" src="./assets/architecture.png">
 
 # Deployment
-The application is deployed to AWS using Github Actions [[pipeline file](.github/workflows/sam-pipeline.yml)].
+The application is deployed trough AWS CloudFormation using Github Actions [[pipeline file](.github/workflows/sam-pipeline.yml)].
 
-It is composed of two stages:
+It is composed by two stages:
 - **test**: execute unit tests using `unittests` module and create a coverage report using the `coverage` module.
 - **build-and-deploy**: build and deploy the application using `sam build` and `sam deploy`.
-
 
 
 ## Limitations
@@ -29,7 +28,6 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-
 
 Start the local server:
 
