@@ -1,7 +1,7 @@
-import requests
-from PIL import Image
 import io
 
+import requests
+from PIL import Image
 
 if __name__ == "__main__":
     with open("tests/horse.png", "rb") as f:
