@@ -36,7 +36,7 @@ uvicorn src.app.main:app --reload --port 80
 ```
 This will start a server at [http://127.0.0.0:80](http://127.0.0.0:80).
 
-Documentation is available at: [http://127.0.0.0:80/docs](http://127.0.0.0:80:docs).
+Swagger documentation is available at: [http://127.0.0.0:80/docs](http://127.0.0.0:80:docs).
 
 
 ### Consumer example:
