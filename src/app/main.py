@@ -1,12 +1,13 @@
 import io
 from typing import Annotated, Literal
 
-from fastapi import FastAPI, File, Form, Response, UploadFile, status
+from fastapi import FastAPI, File, Form, UploadFile, status
 from fastapi.responses import JSONResponse, StreamingResponse
 from mangum import Mangum
 from PIL import Image
 
 from src.app.image_resizer import ImageResizer
+from src.app.utils import validate_content_type
 
 app = FastAPI(
     title="Thumbnail Generator",
@@ -58,27 +59,15 @@ async def get_thumbnail(
         File: IOBytes of the resized image, default format is PNG.
     """
     # Validate input file type
-    if file.content_type not in ["image/png", "image/jpeg"]:
-        return Response(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content=f"Supported formats: [.png, .jpeg]; provided '{file.filename}'.",
-        )
+    validate_content_type(file.filename, file.content_type)
 
-    # Read image data
-    image_data = await file.read()
-
-    image = ImageResizer(
-        image=Image.open(io.BytesIO(image_data)),
+    # Get image resizer
+    image_buffer = ImageResizer(
+        image=Image.open(io.BytesIO(await file.read())),
         target_width=width,
         target_height=height,
         output_format=output_format,
-    )
-
-    # Perfrom resizing
-    image.resize()
-
-    # Get output buffer
-    image_buffer = image.get_output_buffer()
+    ).get_output_buffer()
 
     # Send image as response
     return StreamingResponse(image_buffer, media_type=f"image/{output_format.lower()}")

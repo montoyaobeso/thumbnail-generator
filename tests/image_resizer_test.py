@@ -14,7 +14,6 @@ class TestImageResizer(TestCase):
             target_height=128,
             output_format="png",
         )
-        image.resize()
 
         # Act
         result = image.get_output_image()
