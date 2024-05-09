@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "3e214afe-6eda-49e0-9c15-b53437c30793",
+		"name": "Thumbnail Generator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13777898"
+	},
+	"item": [
+		{
+			"name": "root",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/abraham/Desktop/horse.png"
+						},
+						{
+							"key": "width",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "height",
+							"value": "123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:80",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "80"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/abraham/Desktop/horse.png"
+						},
+						{
+							"key": "width",
+							"value": "128",
+							"type": "text"
+						},
+						{
+							"key": "height",
+							"value": "128",
+							"type": "text"
+						},
+						{
+							"key": "output_format",
+							"value": "png",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:80/create",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "80",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
