@@ -42,7 +42,7 @@ Documentation is available at: [http://127.0.0.0:80/docs](http://127.0.0.0:80:do
 
 
 ### Consumer example:
-Use the following snippet to request a thumnnail using Python:
+Use the following snippet to request a thumbnail using Python:
 ```python
 import io
 
